@@ -2,7 +2,7 @@
 
 == Description
 
-A ruby gem to help configure dynamic file paths for classes in a easy way.
+A ruby gem to help configure dynamic file paths for classes in a easy way.  Paths are handled as arrays of path segments that can be joined to form a usable path string.
 
 == Installation
 
@@ -13,14 +13,89 @@ A ruby gem to help configure dynamic file paths for classes in a easy way.
     # 1. Require the library
     require 'pathsconfig'
     
-    # 2. Create a paths config file in ./config/paths.yml or ./paths.yml
+    # 2. Configure Pathsconfig
+    Pathsconfig.config = "#{RAILS_ROOT}/config/paths.yml"  # -- or --
+    Pathsconfig.config = "./some/custom/file.yml"
     
     # 3. Have a class that needs those paths
-    class Foo
-    
+    class Widget
+
+      include Pathsconfig::Base
+      def self.path_config
+        :widget
+      end
+
     end
     
     # 4. Get sweet methods to generate those paths dynamically!
+    @widget.path_array(:a_path)    # returns an array of path segments
+    @widget.path_string(:a_path)   # returns the full path string
+    
+Because you can choose to deal with paths as arrays of path segments, this gem is handy to use in conjunction with the kelredd-repository gem (http://github.com/kelredd/repository).
+    
+== Sample Paths Config File and Corresponding Model Definitions
+
+    # Yaml formatted hash
+    :widget:
+      :static:  # Paths are named for reference
+        ['"a"', '"static"', '"path"']
+      :dynamic:
+        ['"a"', '"dynamic"', '"path"', 'self.id', 'self.name', 'self.type_name']  # Paths can use dynamic model data
+      :nested:
+        ['self.path_array(:static)', '"that"', '"is"', '"nested"']   # Paths can reference other paths
+
+    :sprocket:
+      :dynamic:
+        :old:   # Paths can be typed
+          ['"an old typed"', '"dynamic"', '"path"', 'self.id', 'self.name', 'self.type_name']
+        :new:
+          ['"a new typed"', '"dynamic"', '"path"', 'self.id', 'self.name', 'self.type_name']
+      :nested:
+        ['self.widget.path_array(:dynamic)', '"with"', 'self.path_array(:dynamic)']   # Paths can reference paths from other models if associated
+        
+Basically, anything between the '' marks is evaluated in the model space.  This way you have full access to model data when generating model paths
+
+    class Widget
+
+      include Pathsconfig::Base
+      def self.path_config
+        :widget
+      end
+      def path_type
+        type_name == "Big" ? :old : :new
+      end
+
+      ATTRS = [:id, :type_name, :name]
+      ATTRS.each {|a| attr_reader a }
+
+      def initialize(params={})
+        ATTRS.each{|a| instance_variable_set("@#{a.to_s}", params[a]) }
+      end
+
+    end
+
+    class Sprocket
+
+      include Pathsconfig::Base
+      def self.path_config
+        :sprocket
+      end
+      def path_type
+        widget.path_type
+      end
+
+      ATTRS = [:id, :type_name, :name]
+      ATTRS.each {|a| attr_reader a }
+
+      def initialize(params={})
+        ATTRS.each{|a| instance_variable_set("@#{a.to_s}", params[a]) }
+      end
+
+      def widget
+        @widget ||= Widget.new(:id => 1234, :type_name => 'Small', :name => 'Sarah')
+      end
+
+    end
 
 == License
 

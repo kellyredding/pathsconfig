@@ -25,7 +25,7 @@ end
 
 When /^the "([^\"]*)" config file is configured$/ do |config_type|
   @result = PathsconfigFeature::Helpers.safe_run do
-    Pathsconfig.config = File.expand_path(File.dirname(__FILE__)+"/support/#{config_type}.yml")
+    Pathsconfig.config = File.dirname(__FILE__)+"/support/#{config_type}.yml"
   end
 end
 
