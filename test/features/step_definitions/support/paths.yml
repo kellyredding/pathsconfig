@@ -1,0 +1,16 @@
+:widget:
+  :static:
+    ['"a"', '"static"', '"path"']
+  :dynamic:
+    ['"a"', '"dynamic"', '"path"', 'self.id', 'self.name', 'self.type_name']
+  :nested:
+    ['self.path_array(:static)', '"that"', '"is"', '"nested"']
+    
+:sprocket:
+  :dynamic:
+    :old:
+      ['"an old typed"', '"dynamic"', '"path"', 'self.id', 'self.name', 'self.type_name']
+    :new:
+      ['"a new typed"', '"dynamic"', '"path"', 'self.id', 'self.name', 'self.type_name']
+  :nested:
+    ['self.widget.path_array(:dynamic)', '"with"', 'self.path_array(:dynamic)']

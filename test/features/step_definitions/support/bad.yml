@@ -1,0 +1,5 @@
+- this is
+- an example
+- of a bad config file
+- it is yaml but should be a hash
+- not an array
