@@ -14,6 +14,9 @@ Given /^I have a sprocket model with paths configured$/ do
   @sprocket = Sprocket.new(:id => 1000, :type_name => 'Medium', :name => 'Pat')
 end
 
+Given /^I have a path root of "([^\"]*)"$/ do |root_string|
+  Pathsconfig.root = root_string
+end
 
 
 
@@ -76,4 +79,11 @@ Then /^result should be an array for the "([^\"]*)" model "([^\"]*)" path$/ do |
   p @result
 end
 
+Then /^result should be a string with root "([^\"]*)"$/ do |root_string|
+  assert @result
+  assert_kind_of String, @result
+  assert @result.length > 0
+  assert @result =~ /^\/something/
+  p @result
+end
 

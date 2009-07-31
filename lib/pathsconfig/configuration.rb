@@ -24,7 +24,7 @@ module Pathsconfig
   end
 
   def self.root=(path)
-    @@root = path
+    @@root = Array(path)
   end
   
   def self.root

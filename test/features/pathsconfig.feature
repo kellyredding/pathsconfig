@@ -59,3 +59,12 @@ Feature: Pathsconfig
     And the "paths" config file is configured
     And the "path_array" for "nested" is called 
     Then result should be an array for the "sprocket" model "nested" path
+    
+  Scenario: Set to path string with root
+    Given I have a path root of "/something"
+    When I use the "widget" model
+    And the "paths" config file is configured
+    And the "path_string" for "static" is called 
+    Then result should be a string with root "something"
+  
+
