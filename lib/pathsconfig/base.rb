@@ -17,7 +17,7 @@ module Pathsconfig
           path_value[self.path_type.to_sym].collect{ |exp| eval(exp) }.flatten
         elsif path_value.kind_of?(Array)
           path_value.collect{ |exp| eval(exp) }.flatten
-        elsif path_value.blank?
+        elsif path_value.nil? || path_value.empty?
           raise Pathsconfig::ModelError, "'#{path_name}' is not configured for #{self.class.name}"
         else
           raise Pathsconfig::ModelError, "'#{path_name}' is incorrectly configured for #{self.class.name}"
