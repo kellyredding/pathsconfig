@@ -5,7 +5,7 @@ require 'rake/testtask'
 require 'lib/pathsconfig/version'
 
 spec = Gem::Specification.new do |s|
-  s.name             = 'pathsconfig'
+  s.name             = 'kelredd-pathsconfig'
   s.version          = Pathsconfig::Version.to_s
   s.has_rdoc         = true
   s.extra_rdoc_files = %w(README.rdoc)
@@ -13,7 +13,7 @@ spec = Gem::Specification.new do |s|
   s.summary          = "A ruby gem to help configure dynamic file paths for classes in a easy way."
   s.author           = 'Kelly Redding'
   s.email            = 'kelly@kelredd.com'
-  s.homepage         = 'http://code.kelredd.com'
+  s.homepage         = 'http://github.com/kelredd/pathsconfig'
   s.files            = %w(README.rdoc Rakefile) + Dir.glob("{lib}/**/*")
   # s.executables    = ['pathsconfig']
   

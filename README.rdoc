@@ -6,7 +6,7 @@ A ruby gem to help configure dynamic file paths for classes in a easy way.  Path
 
 == Installation
 
-    sudo gem install kelredd-pathsconfig --source http://gems.github.com
+    gem install kelredd-pathsconfig
 
 == Usage
 
